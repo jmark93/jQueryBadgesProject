@@ -1,17 +1,39 @@
 $(function() {
-	
-$.ajax({
-	url: 'https://www.codeschool.com/users/jmark93/.json',
+
+	$.ajax({
+		url: 'https://www.codeschool.com/users/jmark93.json',
   	dataType: 'jsonp',
   	success: function(response) {
-		$.each(response, function(i) {
-			var favorite = $('.favorite-' + index);
-			favorite.find('p').html(city.name);
-			favorite.find('img')
-				.attr('src', city.image);
+			addCourses(response.courses.completed);
+		}
 	});
 
-};
-	//https://www.codeschool.com/projects/use-jquery-to-fetch-and-show-code-school-badges-using-ajax/build#answer-video
-    
+	function addCourses(courses) {
 
+		var $badges = $('#badges');
+
+		courses.forEach(function(course){
+
+			var $course = $('<div />', {
+				'class':'course'
+			}) .appendTo($badges);
+
+			$('<h3 />', {
+				text: course.title
+			}).appendTo($course);
+
+			$('<img />', {
+				src: course.badge
+			}).appendTo($course);
+
+			$('<a />', {
+				'class': 'btn btn-primary',
+				target: '_blank',
+				href: course.url,
+				text: 'Review Course'
+			}).appendTo($course);
+		})
+
+	}
+
+});
